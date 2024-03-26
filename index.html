@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主页</title>
+    <link rel="stylesheet" href="./Static/WinUI/config/app-config.css" />
+    <link rel="stylesheet" href="./Static/WinUI/windows-ui.min.css" />
+    <link rel="stylesheet" href="./Static/WinUI/icons/winui-icons.min.css" />
+    <link rel="stylesheet" href="./Static/MyStyle.css" />
+    <link rel="stylesheet" href="./Static/copenhagen/copenhagen.v0-3-0.min.css">
+    <script src="./Static/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="left">
+            <!--左边的内容-->
+            <div id="screen" style="background-color: #1F1F1F; width: 100%;margin: 56px 0 0 0;">
+                <canvas id="fgCanvas" class="canvas-fg" style="opacity:0.5;"></canvas>
+                <canvas id="bgCanvas" class="canvas-bg"></canvas>
+            </div>
+        </div>
+
+
+        <div class="right">
+            <div class="top">
+                <div class="top1" style="background-color: white;padding-top: 8px;padding-left: 5px;">
+                    <!--工具栏-->
+                    <div style="float: left;padding: 5px 20px 0 0;">
+                        <label class="app-switch" style="margin: 0 5px 0 0;">
+                            <input type="checkbox" id="captab" />
+                            <div class="app-switch-view"></div>
+                            <span class="app-switch-label" data-on="捕获中" data-off="查看中"></span>
+                        </label>
+
+                        <label class="app-switch">
+                            <input type="checkbox" id="refresh" />
+                            <div class="app-switch-view"></div>
+                            <span class="app-switch-label" data-on="自动刷新" data-off="手动刷新"></span>
+                        </label>
+                    </div>
+
+                    <div style="float: left;">
+
+                        <button class="app-btn" id="refreshBtn">
+                            <i class="icons10-refresh"></i>
+                            <span>刷新</span>
+                        </button>
+
+                        <button class="app-btn" id="importFile">
+                            <i class="icons10-opened-folder"></i>
+                            <span>导入脚本</span>
+                        </button>
+
+                        <button class="app-btn" id="saveFile">
+                            <i class="icons10-save"></i>
+                            <span>保存脚本</span>
+                        </button>
+
+                        <button id="device" class="app-btn" data-win-toggle="modal" data-win-target="#MyDialog">
+                            <i class="icons10-usb"></i>
+                            <span>连接设备</span>
+                        </button>
+                    </div>
+
+
+                    <div style="float: right;padding: 0 5px 0 0;">
+                        <button class="app-btn app-btn-primary" id="codeExec">
+                            <i class="icons10-video-file"></i>
+                            <span>运行</span>
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="top2">
+                    <div class="top2-left">
+                        <!--控件区-->
+                        <div style="height:500px;overflow-y:scroll;text-align: center;">
+
+                            <button class="app-btn ActionBtn">
+                                <span>点击元素</span>
+                            </button>
+
+                            <button class="app-btn ActionBtn">
+                                <span>获取元素文本</span>
+                            </button>
+
+                            <button class="app-btn ActionBtn">
+                                <span>设置元素文本</span>
+                            </button>
+
+                            <button class="app-btn ActionBtn">
+                                <span>元素是否存在</span>
+                            </button>
+
+                            <button class="app-btn ActionBtn">
+                                <span>等待元素出现</span>
+                            </button>
+
+                            <button class="app-btn ActionBtn">
+                                <span>等待元素消失</span>
+                            </button>
+
+                            <button class="app-btn ActionBtn">
+                                <span>设备按键</span>
+                            </button>
+
+                            <button class="app-btn ActionBtn">
+                                <span>点击屏幕</span>
+                            </button>
+
+                            <button class="app-btn ActionBtn">
+                                <span>双击屏幕</span>
+                            </button>
+
+                            <button class="app-btn ActionBtn">
+                                <span>长按屏幕</span>
+                            </button>
+
+                            <button class="app-btn ActionBtn">
+                                <span>滑动屏幕</span>
+                            </button>
+
+                            <button class="app-btn ActionBtn">
+                                <span>元素截图</span>
+                            </button>
+
+                            <button class="app-btn ActionBtn">
+                                <span>获取相似元素</span>
+                            </button>
+
+                            <button class="app-btn ActionBtn">
+                                <span>获取包名</span>
+                            </button>
+
+                            <button class="app-btn ActionBtn">
+                                <span>启动应用</span>
+                            </button>
+
+                            <button class="app-btn ActionBtn">
+                                <span>关闭应用</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="top2-right">
+                        <!--设计区-->
+                        <div class="editor" data-language="javascript">
+                            import uiautomator2 as u2
+                            import requests
+                            
+                        </div>
+
+                        <div class="app-alert-bar" role="alert" style="position:relative;z-index: 999;" id="captabElement">
+                            <span>元素路径</span>
+                            <div class="app-input-container">
+                                <input id="xpathPath" class="app-input-text" style="width: 500px;" type="text" placeholder="xpath">
+                            </div>
+                            <div class="app-input-container">
+                                <input id="coordinate" class="app-input-text" type="text" placeholder="坐标">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom" style="min-height: 180px;">
+                <!--日志区-->
+                <textarea id="runLog" class="app-textarea" placeholder="运行日志"
+                    style="width: 100%;height: 100%;margin: 5px 0 5px 0;" readonly="readonly"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-dialog" id="MyDialog" data-win-toggle="modal" tabindex="-1">
+        <div class="app-dialog-modal" aria-modal="true" role="dialog">
+            <div class="app-dialog-header">
+                <h3>连接adb</h3>
+            </div>
+            <div class="app-dialog-body" style="padding: 10px;">
+                <div class="app-input-container">
+                    <input id="deviceAddr" class="app-input-text" type="text" placeholder="地址">
+                </div>
+                <div class="app-input-container">
+                    <input id="devicePort" class="app-input-text" type="text" placeholder="端口">
+                </div>
+
+                <b id="deviceStatus">设备已连接.</b>
+
+                <textarea id="deviceInfo" class="app-textarea" style="width: 100%;" placeholder="设备信息"></textarea>
+
+
+                <button id="connDevice" class="app-btn" style="float: right;margin: 10px 10px 0 0;">
+                    <span>连接</span>
+                </button>
+
+                <div id="connLoading" class="app-loader-bar animate"></div>
+            </div>
+            <div class="app-dialog-footer">
+                <button class="app-btn" type="button" data-win-toggle="modal" data-win-target="#MyDialog">
+                    <span>退出</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="./index.js"></script>
+    <script src="./Static/copenhagen/copenhagen.v0-3-0.min.js"></script>
+    <script src="./Static/WinUI/windows-ui.min.js"></script>
+</body>
+
+</html>
